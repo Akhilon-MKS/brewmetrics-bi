@@ -1,19 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "bcd840a854d281d09ed3",
+  "name": "1d114bfdcb82030367d6",
   "position": {
-    "x": 10,
-    "y": 0,
-    "z": 0,
-    "height": 280,
-    "width": 280,
-    "tabOrder": 0
+    "x": 1393.4389317973557,
+    "y": 77.815420866605578,
+    "z": 5,
+    "height": 204.4916873936379,
+    "width": 522.99201466160491,
+    "tabOrder": 5
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "cardVisual",
     "query": {
       "queryState": {
-        "Y": {
+        "Data": {
           "projections": [
             {
               "field": {
@@ -51,6 +51,39 @@
         "isDefaultSort": true
       }
     },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Month-over-Month Growth'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "53e54d6eb54dcd860520",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Fact_Sales"
+              }
+            },
+            "Property": "MoM Growth %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
