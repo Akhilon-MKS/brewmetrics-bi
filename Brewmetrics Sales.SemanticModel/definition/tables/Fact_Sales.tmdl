@@ -1,6 +1,65 @@
 table Fact_Sales
 	lineageTag: 0d930313-57dd-46c6-959c-96639d4d94fd
 
+	measure 'Total Sales' =
+			
+			SUM(Fact_Sales[sales_amount])
+		lineageTag: 14f779ab-74b6-4c5c-bfd3-83df8dca8dbb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MoM Growth %' =
+			
+			VAR CurrentSales = [Total Sales]
+			VAR PreviousSales =
+			    CALCULATE(
+			        [Total Sales],
+			        DATEADD(Dim_Date[Date], -1, MONTH)
+			    )
+			RETURN
+			DIVIDE(
+			    CurrentSales - PreviousSales,
+			    PreviousSales
+			)
+		lineageTag: 41423b84-de2a-4a83-9d31-b46601c2dae9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Running Total Sales' =
+			
+			CALCULATE(
+			    [Total Sales],
+			    FILTER(
+			        ALL(Dim_Date[Date]),
+			        Dim_Date[Date] <= MAX(Dim_Date[Date])
+			    )
+			)
+		lineageTag: 70a79138-245d-4f80-ade1-2265f959e07f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Product Rank' =
+			
+			RANKX(
+			    ALL(Dim_Product[item]),
+			    [Total Sales],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		lineageTag: 5460bd67-b4bd-4d8d-af84-e6848a89c22a
+
+	measure 'Average Transaction Value' =
+			
+			DIVIDE(
+			    [Total Sales],
+			    DISTINCTCOUNT(Fact_Sales[sale_id])
+			)
+		lineageTag: b4491e7c-e46f-449d-9619-6f295d7b5e6f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column sale_id
 		dataType: int64
 		formatString: 0
